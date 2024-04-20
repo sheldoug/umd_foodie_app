@@ -1,14 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
-const calendar = () => {
+const CalendarScreen = () => {
   return (
-    <View>
-      <Text>calendar</Text>
+    <View style={styles.container}>
+      <Calendar
+        // Add your calendar configurations here
+        // For example:
+        // markedDates={{
+        //   '2024-04-20': { selected: true, marked: true, selectedColor: 'blue' },
+        // }}
+      />
     </View>
-  )
-}
+  );
+};
 
-export default calendar
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#EFF1ED',
+  },
+});
 
-const styles = StyleSheet.create({})
+export default CalendarScreen;
