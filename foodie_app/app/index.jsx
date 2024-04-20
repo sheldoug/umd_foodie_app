@@ -1,7 +1,18 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from 'expo-router'
+import * as Font from 'expo-font';
+import React, { useState, useEffect } from 'react';
+import {  useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 
 export default function Page() {
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.main}>
@@ -15,12 +26,15 @@ export default function Page() {
   );
 }
 
+
 const styles = StyleSheet.create({
+  
+
   container: {
     flex: 1,
     alignItems: "center",
     padding: 24,
-    backgroundColor: '#EFF1ED'
+    backgroundColor: '#E9190F'
   },
   main: {
     flex: 1,
@@ -31,13 +45,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 64,
     fontWeight: "bold",
-    color: '#E9190F',
+    fontFamily: "Inter_900Black",
+    color: "#241909",
     position: 'relative',
     marginTop: -5,
   },
   subtitle: {
     fontSize: 36,
-    color: "#38434D",
+    color: "#241909",
   },
   button: {
     backgroundColor: "blue",
