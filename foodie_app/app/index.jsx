@@ -5,9 +5,9 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>Hello World</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
-        <Link href="/map" style={{color: 'blue'}}>Go to Map</Link>
+        <Text style={styles.title}>UMD Foodie</Text>
+        <Text style={styles.subtitle}>Find free food events on campus</Text>
+        <Link href="/map" style={styles.button}>Go to Map</Link>
       </View>
     </View>
   );
@@ -32,5 +32,17 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 36,
     color: "#38434D",
+  },
+  button: {
+    backgroundColor: "blue",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+    textAlign: "center",
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    textDecorationLine: "none", // Remove underline
   },
 });
