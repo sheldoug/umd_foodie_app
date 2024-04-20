@@ -22,7 +22,6 @@ function Calendar() {
         start: '2024-04-20T19:00:00',
         end: '2024-04-20T20:30:00'
       }
-    
   ];
 
   return (
