@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "foodie_app",
+    "scheme": "foodie",
     "slug": "foodie_app",
     "version": "1.0.0",
     "orientation": "portrait",
