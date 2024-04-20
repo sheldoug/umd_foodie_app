@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 24,
-    backgroundColor: '#E9190F'
+    backgroundColor: '#92140C'
   },
   main: {
     flex: 1,
@@ -55,15 +55,15 @@ const styles = StyleSheet.create({
     color: "#241909",
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: "#D4AA7D",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 50,
     marginTop: 20,
     textAlign: "center",
-    color: "white",
+    color: "#241909",
     fontSize: 18,
     fontWeight: "bold",
-    textDecorationLine: "none", // Remove underline
+    textDecorationLine: "none",
   },
 });
