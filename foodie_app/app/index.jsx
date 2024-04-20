@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>UMD Foodie</Text>
+        <Text style={styles.title}>UMD Foodies</Text>
         <Text style={styles.subtitle}>Find free food events on campus!</Text>
         <Link href="/map" style={styles.button}>View Campus Map</Link>
         <Link href="/calendar" style={styles.button}>Calendar of Food Events</Link>
@@ -31,7 +31,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 64,
     fontWeight: "bold",
-    color: '#E9190F'
+    color: '#E9190F',
+    position: 'relative',
+    marginTop: -5,
   },
   subtitle: {
     fontSize: 36,
