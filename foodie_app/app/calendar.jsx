@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-
 const { width } = Dimensions.get('window');
 
 const CalendarScreen = () => {
@@ -51,85 +50,20 @@ const CalendarScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.weekEventsContainer}>
-        <Text style={styles.weekEventsTitle}>This Week's Events:</Text>
-        {Object.keys(currentWeekEvents).map((date) => (
-          <View key={date}>
-            <Text style={styles.dateText}>{date}</Text>
-            {currentWeekEvents[date].map((event, index) => (
-              <Text key={index} style={styles.eventText}>{event.name}</Text>
-            ))}
-          </View>
-        ))}
-      </View>
-      <Calendar
-        style={styles.calendar}
-        renderDay={renderDay}
-        markedDates={getMarkedDates(events)}
-        onPress={(date) => {
-          console.log('Clicked date:', date.dateString);
+    <div>
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView={"dayGridMonth"}
+        headerToolbar={{
+          start: "today prev,next",
+          center: "title",
+          end: "dayGridMonth,timeGridWeek,timeGridDay"
         }}
+        height={"90vh"}
+        events={events} // Pass event data here
       />
-    </View>
+    </div>
   );
-};
+}
 
-const getMarkedDates = (events) => {
-  let markedDates = {};
-
-  Object.keys(events).forEach((date) => {
-    markedDates[date] = { marked: true };
-  });
-
-  return markedDates;
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EFF1ED',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  weekEventsContainer: {
-    paddingHorizontal: 16,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  weekEventsTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  dateText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  eventText: {
-    fontSize: 18,
-    color: '#000',
-    marginBottom: 4,
-  },
-  calendar: {
-    width: width - 32,
-  },
-  dayContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  dayText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  eventDot: {
-    width: 6,
-    height: 6,
-    backgroundColor: 'blue',
-    borderRadius: 3,
-    marginBottom: 4,
-  },
-});
-
-export default CalendarScreen;
+export default Calendar;
