@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>UMD Foodie</Text>
+        <Text style={styles.title}>UMD Foodies</Text>
         <Text style={styles.subtitle}>Find free food events on campus</Text>
         <Link href="/map" style={styles.button}>Go to Map</Link>
       </View>
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 24,
+    backgroundColor: '#EFF1ED'
   },
   main: {
     flex: 1,
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 64,
     fontWeight: "bold",
+    color: '#E9190F'
   },
   subtitle: {
     fontSize: 36,
