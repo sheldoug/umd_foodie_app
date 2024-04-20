@@ -7,7 +7,9 @@ export default function Page() {
       <View style={styles.main}>
         <Text style={styles.title}>UMD Foodies</Text>
         <Text style={styles.subtitle}>Find free food events on campus</Text>
-        <Link href="/map" style={styles.button}>Go to Map</Link>
+        <Link href="/map" style={styles.button}>View Campus Map</Link>
+        <Link href="/calendar" style={styles.button}>Calendar of Food Events</Link>
+        <Link href="/add_event" style={styles.button}>Add New Food Event</Link>
       </View>
     </View>
   );
