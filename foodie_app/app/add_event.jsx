@@ -13,7 +13,6 @@ const firebaseConfig = {
     measurementId: "G-5DHKWMMGD6"
   };
 
-
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
@@ -23,6 +22,8 @@ const AddEvent = () => {
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
   const [eventDescription, setEventDescription] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
+  const [eventRoomNumber, setEventRoomNumber] = useState('');
 
   const handleAddEvent = async () => {
     try {
@@ -31,7 +32,9 @@ const AddEvent = () => {
         eventDate: eventDate,
         eventStartTime: eventStartTime,
         eventEndTime: eventEndTime,
-        eventDescription: eventDescription
+        eventDescription: eventDescription,
+        eventLocation: eventLocation,
+        eventRoomNumber: eventRoomNumber
       });
       // Reset form fields
       setEventName('');
@@ -39,6 +42,8 @@ const AddEvent = () => {
       setEventStartTime('');
       setEventEndTime('');
       setEventDescription('');
+      setEventLocation('');
+      setEventRoomNumber('');
     } catch (error) {
       console.error('Error adding event: ', error);
       // Show error message
@@ -76,6 +81,20 @@ const AddEvent = () => {
         placeholder="HH:MM"
         value={eventEndTime}
         onChangeText={setEventEndTime}
+      />
+      <Text style={styles.label}>Location/Building</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter event location/building"
+        value={eventLocation}
+        onChangeText={setEventLocation}
+      />
+      <Text style={styles.label}>Room Number (Optional)</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter event room number (optional)"
+        value={eventRoomNumber}
+        onChangeText={setEventRoomNumber}
       />
       <Text style={styles.label}>Description</Text>
       <TextInput
