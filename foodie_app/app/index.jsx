@@ -19,7 +19,7 @@ export default function Page() {
         <Text style={styles.title}>UMD Foodies</Text>
         <Text style={styles.subtitle}>Find free food events on campus!</Text>
         <Link href="/map" style={styles.button}>View Campus Map</Link>
-        <Link href="/calendar" style={styles.button}>Calendar of Food Events</Link>
+        <Link href="/calendar" style={styles.button}>List of Food Events</Link>
         <Link href="/add_event" style={styles.button}>Add New Food Event</Link>
       </View>
     </View>
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     maxWidth: 960,
     marginHorizontal: "auto",
+
   },
   title: {
     fontSize: 64,
