@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE, UrlTile } from "react-native-maps";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE, UrlTile } from "react-native-maps";
 import * as Location from "expo-location";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
@@ -27,9 +27,8 @@ export default function map() {
     const snapshot = await getDocs(q);
     const temp = [];
 
-
     snapshot.forEach((doc) => {
-      console.log(doc.data())
+      console.log(doc.data());
       const event = doc.data();
       temp.push({
         lat: event.latitude,
@@ -37,12 +36,12 @@ export default function map() {
         building: event.eventLocation,
         room: event.eventRoomNumber,
         name: event.eventName,
-        start: event.startTime,
+        start: event.eventStartTime,
         end: event.eventEndTime,
-        desc: event.eventDescription
+        desc: event.eventDescription,
       });
     });
-    setEventMarkers(prev => [...prev, ...temp]);
+    setEventMarkers((prev) => [...prev, ...temp]);
   };
 
   const navigation = useNavigation();
@@ -97,7 +96,7 @@ export default function map() {
           });
         }
       );
-    } catch { }
+    } catch {}
   };
 
   useEffect(() => {
@@ -114,26 +113,40 @@ export default function map() {
           style={styles.map}
           region={mapRegion}
         >
-          {eventMarkers.map((marker, index) => 
-            (
-              <Marker key={index} coordinate={{latitude: parseFloat(marker.lat), longitude: parseFloat(marker.lon)}} title={marker.name} description={`${marker.building}\n${marker.desc}`}/>
-            )
-          )}
+          {eventMarkers.map((marker, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: parseFloat(marker.lat),
+                longitude: parseFloat(marker.lon),
+              }}
+              title={marker.name}
+              description={`${marker.building}\n${marker.desc}`}
+            >
+              <Callout>
+                <View style={{padding:10}}>
+                  <Text style={{fontWeight: "bold"}}>{marker.name}</Text>
+                  <Text>{`${marker.building} Room: ${marker.room}`}</Text>
+                  <Text>{`Start time: ${marker.start}`}</Text>
+                  <Text>{`End time: ${marker.end}`}</Text>
+                </View>
+              </Callout>
+            </Marker>
+          ))}
         </MapView>
         <Button
-        title="Add an Event"
-        onPress={() => {
-          router.push({
-            pathname: "/add_event",
-            params: {
-              lat: currLoc.lat,
-              lon: currLoc.lon,
-            },
-          });
-        }}
-      ></Button>
+          title="Add an Event"
+          onPress={() => {
+            router.push({
+              pathname: "/add_event",
+              params: {
+                lat: currLoc.lat,
+                lon: currLoc.lon,
+              },
+            });
+          }}
+        ></Button>
       </View>
-
     </>
   );
 }
