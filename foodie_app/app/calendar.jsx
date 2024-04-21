@@ -18,10 +18,10 @@ function Calendar() {
       end: '2024-04-20T14:00:00'
     },
     {
-        title: 'Bitcamp Dinner',
-        start: '2024-04-20T19:00:00',
-        end: '2024-04-20T20:30:00'
-      }
+      title: 'Bitcamp Dinner',
+      start: '2024-04-20T19:00:00',
+      end: '2024-04-20T20:30:00'
+    }
   ];
 
   return (
@@ -34,8 +34,9 @@ function Calendar() {
           center: "title",
           end: "dayGridMonth,timeGridWeek,timeGridDay"
         }}
+        aspectRatio={1.5} 
         height={"90vh"}
-        events={events} // Pass event data here
+        events={events} 
       />
     </div>
   );
