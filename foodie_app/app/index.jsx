@@ -46,9 +46,10 @@ const styles = StyleSheet.create({
     fontSize: 64,
     fontWeight: "bold",
     fontFamily: "Inter_900Black",
-    color: "#241909",
+    color: "white",
     position: 'relative',
-    marginTop: -5,
+    borderStyle: 'solid',
+    marginTop: -5
   },
   subtitle: {
     fontSize: 36,
