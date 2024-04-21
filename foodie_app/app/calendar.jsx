@@ -14,11 +14,9 @@ const firebaseConfig = {
   measurementId: "G-5DHKWMMGD6"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-// EventList component
 const EventList = () => {
   const [sections, setSections] = useState([]);
 
@@ -30,17 +28,13 @@ const EventList = () => {
         .map(doc => ({ id: doc.id, ...doc.data() }))
         .sort((a, b) => a.eventDate.localeCompare(b.eventDate));
 
-      // Group events by month
       const groupedByMonth = sortedEvents.reduce((acc, event) => {
-        // Extract the month and year as a section title
         const monthYear = format(parseISO(event.eventDate), 'MMMM yyyy');
-        // Find or initialize the section for this month
         let section = acc.find(s => s.title === monthYear);
         if (!section) {
           section = { title: monthYear, data: [] };
           acc.push(section);
         }
-        // Add the event to the section
         section.data.push(event);
         return acc;
       }, []);
@@ -79,7 +73,6 @@ const EventList = () => {
   );
 };
 
-// Styles
 const styles = StyleSheet.create({
   eventCard: {
     backgroundColor: '#f9f9f9',
@@ -89,13 +82,12 @@ const styles = StyleSheet.create({
     color: '#92140C'
   },
   title: {
-    fontSize: 30, // increased font size
+    fontSize: 30, 
     fontWeight: 'bold',
-    padding: 20, // increased padding for a larger touch area
-    textAlign: 'center', // center the text
-    backgroundColor: '#ffffff', // background color for the title area
-    color: '#000000', // text color, you can adjust as needed
-    // Add shadow or elevation for depth, optional
+    padding: 20, 
+    textAlign: 'center', 
+    backgroundColor: '#ffffff', 
+    color: '#000000', 
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

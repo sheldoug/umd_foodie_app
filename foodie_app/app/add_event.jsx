@@ -25,8 +25,8 @@ const AddEvent = () => {
   const [eventDescription, setEventDescription] = useState('');
   const [eventLocation, setEventLocation] = useState('');
   const [eventRoomNumber, setEventRoomNumber] = useState('');
-  const [latitude, setLatitude] = useState('0.0'); // Default latitude
-  const [longitude, setLongitude] = useState('0.0'); // Default longitude
+  const [latitude, setLatitude] = useState('0.0');  
+  const [longitude, setLongitude] = useState('0.0'); 
 
   const navigation = useNavigation();
   const router = useRouter();
@@ -55,10 +55,10 @@ const AddEvent = () => {
         eventDescription: eventDescription,
         eventLocation: eventLocation,
         eventRoomNumber: eventRoomNumber,
-        latitude: latitude, // Include latitude in the document
-        longitude: longitude // Include longitude in the document
+        latitude: latitude, 
+        longitude: longitude
       });
-      // Reset form fields
+     
       setEventName('');
       setEventDate('');
       setEventStartTime('');
@@ -66,11 +66,11 @@ const AddEvent = () => {
       setEventDescription('');
       setEventLocation('');
       setEventRoomNumber('');
-      setLatitude(''); // Reset latitude
-      setLongitude(''); // Reset longitude
+      setLatitude(''); 
+      setLongitude(''); 
     } catch (error) {
       console.error('Error adding event: ', error);
-      // Show error message
+      
       alert(error);
     }
   };
@@ -136,14 +136,14 @@ const AddEvent = () => {
           style={styles.input}
           placeholder="Latitude"
           value={latitude}
-          editable={false} // Make the field read-only
+          editable={false}  
         />
         <Text style={styles.label}>Longitude</Text>
         <TextInput
           style={styles.input}
           placeholder="Longitude"
           value={longitude}
-          editable={false} // Make the field read-only
+          editable={false}  
         />
         <Button title="Add Event" onPress={handleAddEvent} />
       </View>
