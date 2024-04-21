@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, Button, Text, ScrollView, Link} from 'react-native';
+import { StyleSheet, View, TextInput, Button, Text, ScrollView, Link, Pressable} from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useNavigation, useRouter, useLocalSearchParams } from 'expo-router';
@@ -25,8 +25,8 @@ const AddEvent = () => {
   const [eventDescription, setEventDescription] = useState('');
   const [eventLocation, setEventLocation] = useState('');
   const [eventRoomNumber, setEventRoomNumber] = useState('');
-  const [latitude, setLatitude] = useState('0.0');  
-  const [longitude, setLongitude] = useState('0.0'); 
+  const [latitude, setLatitude] = useState("38.9860");  
+  const [longitude, setLongitude] = useState("76.9446"); 
 
   const navigation = useNavigation();
   const router = useRouter();
@@ -68,6 +68,7 @@ const AddEvent = () => {
       setEventRoomNumber('');
       setLatitude(''); 
       setLongitude(''); 
+      router.back();
     } catch (error) {
       console.error('Error adding event: ', error);
       
@@ -76,11 +77,10 @@ const AddEvent = () => {
   };
 
   return (
-    <ScrollView>
 
-
+    <ScrollView style={{backgroundColor: "#FFF8F0"}}>
+          <Text style={styles.title}>Add Food Event</Text>
       <View style={styles.container}>
-        <Text style={styles.title}>Add Food Event</Text>
         <Text style={styles.label}>Event Name</Text>
         <TextInput
           style={styles.input}
@@ -145,8 +145,14 @@ const AddEvent = () => {
           value={longitude}
           editable={false}  
         />
-        <Button title="Add Event" onPress={handleAddEvent} />
+        
+        {/* <Button title="Add Event" onPress={handleAddEvent} /> */}
       </View>
+      <Pressable style={styles.button} onPress={handleAddEvent}>
+          <Text style={styles.text}>
+            Add Event
+          </Text>
+        </Pressable>
     </ScrollView>
   );
 };
@@ -161,27 +167,48 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: "Inter_900Black",
     marginBottom: 20,
+    color: "#92140C",
+    backgroundColor: "#FFF8F0",
+    textAlign: 'center'
   },
   label: {
     fontSize: 18,
     marginBottom: 5,
     alignSelf: 'flex-start',
-    fontFamily: "Inter_900Black"
+    fontFamily: "Inter_900Black",
+    // color: "#92140C"
   },
   input: {
     height: 40,
     width: '100%',
-    borderColor: 'black',
-    borderWidth: 2,
+    // borderColor: '#92140C',
+    // borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
     fontSize: 16,
     opacity: 1,
+    backgroundColor: "#FFECEC"
   },
   textArea: {
     height: 100,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#92140C',
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
   },
 });
 

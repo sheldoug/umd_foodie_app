@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { Link } from 'expo-router'
 import * as Font from 'expo-font';
 import React, { useState, useEffect } from 'react';
@@ -16,11 +16,18 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
+        <Image source={require('../assets/transparent.png')} style={{width: 150, height:150}}/>
         <Text style={styles.title}>UMD Foodies</Text>
         <Text style={styles.subtitle}>Find free food events on campus!</Text>
         <Link href="/map" style={styles.button}>View Campus Map</Link>
         <Link href="/calendar" style={styles.button}>List of Food Events</Link>
-        <Link href="/add_event" style={styles.button}>Add New Food Event</Link>
+        <Link href={{
+            pathname: "/add_event",
+            params: {
+              lat: '38.9860',
+              lon: '76.9446',
+            }
+        }} style={styles.button}>Add New Food Event</Link>
       </View>
     </View>
   );

@@ -67,6 +67,9 @@ export default function map() {
       ...StyleSheet.absoluteFillObject,
       justifyContent: "flex-end",
       alignItems: "center",
+      padding: 10
+      // height: Dimensions.get("window").height * 0.9,
+      // width: Dimensions.get("window").width
     },
     map: {
       ...StyleSheet.absoluteFillObject,
@@ -165,7 +168,7 @@ export default function map() {
           });
         }}>
          <Text style = {styles.text}>Add an Event!</Text>
-      </Pressable>        
+      </Pressable>   
       </View>
 {/* <Button
           style = {{}}
