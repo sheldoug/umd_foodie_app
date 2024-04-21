@@ -1,12 +1,15 @@
-import { StyleSheet, Text, View, Button, Pressable } from "react-native";
+import { StyleSheet, Text, View, Button, Pressable, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
-import MapView, { Callout, Marker, PROVIDER_GOOGLE, UrlTile } from "react-native-maps";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE, UrlTile, enableLatestRenderer } from "react-native-maps";
 import * as Location from "expo-location";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import { collection, getDocs, getFirestore, query } from "firebase/firestore";
 
 export default function map() {
+
+  enableLatestRenderer();
+
   const firebaseConfig = {
     apiKey: "AIzaSyBsbXujxaXYnUblZXCryZObYL6sgyhZS7A",
     authDomain: "umd-foodie.firebaseapp.com",
@@ -28,7 +31,7 @@ export default function map() {
     const temp = [];
 
     snapshot.forEach((doc) => {
-      console.log(doc.data());
+      // console.log(doc.data());
       const event = doc.data();
       temp.push({
         lat: event.latitude,
@@ -68,6 +71,22 @@ export default function map() {
     map: {
       ...StyleSheet.absoluteFillObject,
     },
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 32,
+      borderRadius: 4,
+      elevation: 3,
+      backgroundColor: '#92140C',
+    },
+    text: {
+      fontSize: 16,
+      lineHeight: 21,
+      fontWeight: 'bold',
+      letterSpacing: 0.25,
+      color: 'white',
+    },
   });
 
   const getLocation = async () => {
@@ -76,14 +95,14 @@ export default function map() {
       if (status !== "granted") {
         return;
       }
-      let location = await Location.watchPositionAsync(
+      await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.BestForNavigation,
           timeInterval: 5000,
           distanceInterval: 0,
         },
         (loc) => {
-          console.log(loc);
+          // console.log(loc);
           setMapRegion({
             latitude: loc.coords.latitude,
             longitude: loc.coords.longitude,
@@ -127,14 +146,29 @@ export default function map() {
                 <View style={{padding:10}}>
                   <Text style={{fontWeight: "bold"}}>{marker.name}</Text>
                   <Text>{`${marker.building} Room: ${marker.room}`}</Text>
-                  <Text>{`Start time: ${marker.start}`}</Text>
-                  <Text>{`End time: ${marker.end}`}</Text>
+                  <Text>{`${marker.start}-${marker.end}`}</Text>
+                  <Text>{`${marker.desc}`}</Text>
                 </View>
               </Callout>
             </Marker>
           ))}
         </MapView>
-        <Button
+        <Pressable
+        style = {styles.button}
+        onPress={() => {
+          router.push({
+            pathname: "/add_event",
+            params: {
+              lat: currLoc.lat,
+              lon: currLoc.lon,
+            },
+          });
+        }}>
+         <Text style = {styles.text}>Add an Event!</Text>
+      </Pressable>        
+      </View>
+{/* <Button
+          style = {{}}
           title="Add an Event"
           onPress={() => {
             router.push({
@@ -145,8 +179,7 @@ export default function map() {
               },
             });
           }}
-        ></Button>
-      </View>
+        ></Button> */}
     </>
   );
 }
