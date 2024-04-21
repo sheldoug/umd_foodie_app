@@ -1,0 +1,28 @@
+.calendarContainer {
+    padding: 10px;
+  }
+  
+  /* Media query for screens up to 600px wide */
+  @media (max-width: 600px) {
+    .calendarContainer .fc-header-toolbar {
+      /* Adjust toolbar layout for small screens */
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .calendarContainer .fc-header-toolbar > .fc-toolbar-chunk {
+      /* Give each chunk full width on small screens */
+      flex-grow: 1;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .calendarContainer .fc-toolbar-title {
+      /* Center the title on small screens */
+      text-align: center;
+      flex-grow: 1;
+    }
+  }
+  
+  
