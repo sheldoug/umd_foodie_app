@@ -1,69 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import MapView, {PROVIDER_GOOGLE, UrlTile} from 'react-native-maps'
-import * as Location from 'expo-location'
+import React from 'react'
 
 
-export default function map() {
-  const [mapRegion, setMapRegion] = useState({
-    latitude: 38.986172,
-    longitude: -76.942362,
-    latitudeDelta: 0.00922,
-    longitudeDelta: 0.00421,
-  });
+// import MapView, {PROVIDER_GOOGLE, UrlTile} from 'react-native-maps'
 
+ const map = () => {
+   return (
+     <View style={styles.container}>
 
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  map : {
-    ...StyleSheet.absoluteFillObject
-  }
-})
+     </View>
+   )
+ }
 
-const getLocation = async () => {
-  try {
-    let {status} = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      return;
-    }
-    let location = await Location.watchPositionAsync({
-      accuracy: Location.Accuracy.Balanced,
-      timeInterval: 1000,
-      distanceInterval: 0
-    }, (loc) => {
-      console.log(loc)
-      setMapRegion({
-        latitude: loc.coords.latitude,
-        longitude: loc.coords.longitude,
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00421,   
-      })
-    }) 
-  } catch {
+export default map
 
-  }
-};
-
-
-useEffect(() => {
-  getLocation(); 
-},[])
-
-
-return (
-  <View style={styles.container}>
-    <MapView 
-      provider={PROVIDER_GOOGLE}
-      showsUserLocation
-      style={styles.map} 
-      region={mapRegion}>
-        <UrlTile urlTemplate='http://c.tile.openstreetmap.org/{z}/{x}/{y}.png'/>
-    </MapView>
-  </View>
-)
-
-}
+// const styles = StyleSheet.create({
+//   container: {
+//     ...StyleSheet.absoluteFillObject,
+//     justifyContent: 'flex-end',
+//     alignItems: 'center'
+//   },
+//   map : {
+//     ...StyleSheet.absoluteFillObject
+//   }
+// })

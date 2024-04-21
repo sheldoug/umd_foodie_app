@@ -24,13 +24,15 @@ const AddEvent = () => {
   const [eventDescription, setEventDescription] = useState('');
   const [eventLocation, setEventLocation] = useState('');
   const [eventRoomNumber, setEventRoomNumber] = useState('');
+  const [latitude, setLatitude] = useState('0.0'); // Default latitude
+  const [longitude, setLongitude] = useState('0.0'); // Default longitude
 
   const handleAddEvent = async () => {
     if (!eventName || !eventDate || !eventStartTime || !eventEndTime || !eventDescription || !eventLocation) {
-        alert('Please fill in all required fields');
-        return;
-      }
-      
+      alert('Please fill in all required fields');
+      return;
+    }
+
     try {
       await addDoc(collection(firestore, 'events'), {
         eventName: eventName,
@@ -39,7 +41,9 @@ const AddEvent = () => {
         eventEndTime: eventEndTime,
         eventDescription: eventDescription,
         eventLocation: eventLocation,
-        eventRoomNumber: eventRoomNumber
+        eventRoomNumber: eventRoomNumber,
+        latitude: latitude, // Include latitude in the document
+        longitude: longitude // Include longitude in the document
       });
       // Reset form fields
       setEventName('');
@@ -49,6 +53,8 @@ const AddEvent = () => {
       setEventDescription('');
       setEventLocation('');
       setEventRoomNumber('');
+      setLatitude(''); // Reset latitude
+      setLongitude(''); // Reset longitude
     } catch (error) {
       console.error('Error adding event: ', error);
       // Show error message
@@ -111,6 +117,20 @@ const AddEvent = () => {
           value={eventDescription}
           onChangeText={setEventDescription}
           multiline
+        />
+        <Text style={styles.label}>Latitude</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Latitude"
+          value={latitude}
+          editable={false} // Make the field read-only
+        />
+        <Text style={styles.label}>Longitude</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Longitude"
+          value={longitude}
+          editable={false} // Make the field read-only
         />
         <Button title="Add Event" onPress={handleAddEvent} />
       </View>
