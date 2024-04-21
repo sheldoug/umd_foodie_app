@@ -6,6 +6,8 @@ App created for Bitcamp 2024 by:
 - Sheldon Douglas
 - Samar Khan
 
+Devpost: https://devpost.com/software/umd-foodies
+
 # Screenshots
 
 ![image](https://github.com/sheldoug/umd_foodie_app/assets/48613444/cc4d297d-0cc6-4199-9ab5-774c4077f9e8)
