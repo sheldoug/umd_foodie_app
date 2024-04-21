@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
@@ -19,34 +18,26 @@ const firestore = getFirestore(app);
 
 const AddEvent = () => {
   const [eventName, setEventName] = useState('');
-  const [eventDate, setEventDate] = useState(new Date());
+  const [eventDate, setEventDate] = useState('');
+  const [eventStartTime, setEventStartTime] = useState('');
+  const [eventEndTime, setEventEndTime] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirmDate = (date) => {
-    setEventDate(date);
-    hideDatePicker();
-  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-        const eventsRef = collection(firestore, 'events'); // Use collection with firestore reference
-        await addDoc(eventsRef, {
-          eventName: eventName,
-          eventDate: eventDate,
-          eventDescription: eventDescription
-        });
+      await addDoc(collection(firestore, 'events'), {
+        eventName: eventName,
+        eventDate: eventDate,
+        eventStartTime: eventStartTime,
+        eventEndTime: eventEndTime,
+        eventDescription: eventDescription
+      });
       // Reset form fields
       setEventName('');
+      setEventDate('');
+      setEventStartTime('');
+      setEventEndTime('');
       setEventDescription('');
     } catch (error) {
       console.error('Error adding event: ', error);
@@ -66,21 +57,31 @@ const AddEvent = () => {
           value={eventName}
           onChangeText={setEventName}
         />
-        <Text style={styles.label}>Date & Time</Text>
-        <View style={styles.dateTimeContainer}>
-          <Button title="Select Date & Time" onPress={showDatePicker} />
-          <Text style={styles.dateTimeText}>{eventDate.toLocaleString()}</Text>
-        </View>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="datetime"
-          onConfirm={handleConfirmDate}
-          onCancel={hideDatePicker}
+        <Text style={styles.label}>Date</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="YYYY-MM-DD"
+          value={eventDate}
+          onChangeText={setEventDate}
         />
-        <Text style={styles.label}>Food Description</Text>
+        <Text style={styles.label}>Start Time</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="HH:MM"
+          value={eventStartTime}
+          onChangeText={setEventStartTime}
+        />
+        <Text style={styles.label}>End Time</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="HH:MM"
+          value={eventEndTime}
+          onChangeText={setEventEndTime}
+        />
+        <Text style={styles.label}>Description</Text>
         <TextInput
           style={[styles.input, styles.textArea]}
-          placeholder="Enter description of the food served"
+          placeholder="Enter description of the event"
           value={eventDescription}
           onChangeText={setEventDescription}
           multiline
@@ -120,17 +121,6 @@ const styles = StyleSheet.create({
   },
   textArea: {
     height: 100,
-  },
-  dateTimeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    width: '100%',
-  },
-  dateTimeText: {
-    fontSize: 16,
-    color: '#555',
   },
 });
 
