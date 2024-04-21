@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Button, Text, ScrollView} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, TextInput, Button, Text, ScrollView, Link} from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { useNavigation, useRouter, useLocalSearchParams } from 'expo-router';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBsbXujxaXYnUblZXCryZObYL6sgyhZS7A",
@@ -26,6 +27,18 @@ const AddEvent = () => {
   const [eventRoomNumber, setEventRoomNumber] = useState('');
   const [latitude, setLatitude] = useState('0.0'); // Default latitude
   const [longitude, setLongitude] = useState('0.0'); // Default longitude
+
+  const navigation = useNavigation();
+  const router = useRouter();
+  const post = useLocalSearchParams();
+
+  useEffect(() => {
+    if (post) {
+      setLatitude(post.lat);
+      setLongitude(post.lon);
+    }
+  }, [post]);
+
 
   const handleAddEvent = async () => {
     if (!eventName || !eventDate || !eventStartTime || !eventEndTime || !eventDescription || !eventLocation) {
