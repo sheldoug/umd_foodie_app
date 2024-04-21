@@ -13,6 +13,7 @@ const firebaseConfig = {
     measurementId: "G-5DHKWMMGD6"
   };
 
+
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
@@ -23,8 +24,7 @@ const AddEvent = () => {
   const [eventEndTime, setEventEndTime] = useState('');
   const [eventDescription, setEventDescription] = useState('');
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleAddEvent = async () => {
     try {
       await addDoc(collection(firestore, 'events'), {
         eventName: eventName,
@@ -49,45 +49,43 @@ const AddEvent = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add Food Event</Text>
-      <form onSubmit={handleFormSubmit}>
-        <Text style={styles.label}>Event Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the name of the event"
-          value={eventName}
-          onChangeText={setEventName}
-        />
-        <Text style={styles.label}>Date</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="YYYY-MM-DD"
-          value={eventDate}
-          onChangeText={setEventDate}
-        />
-        <Text style={styles.label}>Start Time</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="HH:MM"
-          value={eventStartTime}
-          onChangeText={setEventStartTime}
-        />
-        <Text style={styles.label}>End Time</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="HH:MM"
-          value={eventEndTime}
-          onChangeText={setEventEndTime}
-        />
-        <Text style={styles.label}>Description</Text>
-        <TextInput
-          style={[styles.input, styles.textArea]}
-          placeholder="Enter description of the event"
-          value={eventDescription}
-          onChangeText={setEventDescription}
-          multiline
-        />
-        <Button title="Add Event" onPress={handleFormSubmit} />
-      </form>
+      <Text style={styles.label}>Event Name</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter the name of the event"
+        value={eventName}
+        onChangeText={setEventName}
+      />
+      <Text style={styles.label}>Date</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="YYYY-MM-DD"
+        value={eventDate}
+        onChangeText={setEventDate}
+      />
+      <Text style={styles.label}>Start Time</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="HH:MM"
+        value={eventStartTime}
+        onChangeText={setEventStartTime}
+      />
+      <Text style={styles.label}>End Time</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="HH:MM"
+        value={eventEndTime}
+        onChangeText={setEventEndTime}
+      />
+      <Text style={styles.label}>Description</Text>
+      <TextInput
+        style={[styles.input, styles.textArea]}
+        placeholder="Enter description of the event"
+        value={eventDescription}
+        onChangeText={setEventDescription}
+        multiline
+      />
+      <Button title="Add Event" onPress={handleAddEvent} />
     </View>
   );
 };
