@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import MapView, {PROVIDER_GOOGLE, UrlTile} from 'react-native-maps'
 import * as Location from 'expo-location'
@@ -11,6 +11,11 @@ export default function map() {
     latitudeDelta: 0.00922,
     longitudeDelta: 0.00421,
   });
+
+  const [currLoc, setCurrLoc] = useState({
+    lat: 0.0,
+    lon: 0.0
+  })
 
 
 const styles = StyleSheet.create({
@@ -42,6 +47,10 @@ const getLocation = async () => {
         latitudeDelta: 0.00922,
         longitudeDelta: 0.00421,   
       })
+      setCurrLoc({
+        lat: loc.coords.latitude,
+        lon: loc.coords.longitude
+      })
     }) 
   } catch {
 
@@ -63,7 +72,15 @@ return (
       region={mapRegion}>
         <UrlTile urlTemplate='http://c.tile.openstreetmap.org/{z}/{x}/{y}.png'/>
     </MapView>
+    <Link href={{
+      pathname: "/add_event",
+      params: {
+        lat: currLoc.lat,
+        lon: currLoc.lon
+      }
+    }}></Link>
   </View>
+  
 )
 
 }
