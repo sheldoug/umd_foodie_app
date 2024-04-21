@@ -110,12 +110,12 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     width: '100%',
-    borderColor: '#ccc',
+    borderColor: 'black',
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
     fontSize: 16,
-    opacity: 0.4
+    opacity: 0.7,
   },
   textArea: {
     height: 100,
