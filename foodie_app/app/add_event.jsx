@@ -26,6 +26,11 @@ const AddEvent = () => {
   const [eventRoomNumber, setEventRoomNumber] = useState('');
 
   const handleAddEvent = async () => {
+    if (!eventName || !eventDate || !eventStartTime || !eventEndTime || !eventDescription || !eventLocation) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
     try {
       await addDoc(collection(firestore, 'events'), {
         eventName: eventName,
