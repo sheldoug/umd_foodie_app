@@ -3,27 +3,29 @@ import React, { useEffect, useState } from "react";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE, UrlTile, enableLatestRenderer } from "react-native-maps";
 import * as Location from "expo-location";
 import { Link, useNavigation, useRouter } from "expo-router";
-import { initializeApp } from "firebase/app";
+import { initializeApp,  } from "firebase/app";
 import { collection, getDocs, getFirestore, query } from "firebase/firestore";
+import {getStorage} from 'firebase/storage'
+import { Image } from 'expo-image';
 
 export default function map() {
 
   enableLatestRenderer();
 
   const firebaseConfig = {
-    apiKey: "AIzaSyBsbXujxaXYnUblZXCryZObYL6sgyhZS7A",
-    authDomain: "umd-foodie.firebaseapp.com",
-    projectId: "umd-foodie",
-    storageBucket: "umd-foodie.appspot.com",
-    messagingSenderId: "412346293089",
-    appId: "1:412346293089:web:645d0ef53dcfea58398320",
-    measurementId: "G-5DHKWMMGD6",
+    apiKey: "AIzaSyCroielwgkwU_ZIWJFLVksc8ptdWrXu6YI",
+    authDomain: "umd-foodies.firebaseapp.com",
+    projectId: "umd-foodies",
+    storageBucket: "umd-foodies.appspot.com",
+    messagingSenderId: "772481496493",
+    appId: "1:772481496493:web:c7fb0108a9a0f8cfecdd24"
   };
-
-  const [eventMarkers, setEventMarkers] = useState([]);
-
+  
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
+  const storage = getStorage(app);
+
+  const [eventMarkers, setEventMarkers] = useState([]);
 
   const getEvents = async () => {
     const q = query(collection(firestore, "events"));
@@ -42,6 +44,7 @@ export default function map() {
         start: event.eventStartTime,
         end: event.eventEndTime,
         desc: event.eventDescription,
+        url: event.eventImageUrl
       });
     });
     setEventMarkers((prev) => [...prev, ...temp]);
@@ -68,8 +71,7 @@ export default function map() {
       justifyContent: "flex-end",
       alignItems: "center",
       padding: 10
-      // height: Dimensions.get("window").height * 0.9,
-      // width: Dimensions.get("window").width
+
     },
     map: {
       ...StyleSheet.absoluteFillObject,
@@ -102,7 +104,7 @@ export default function map() {
         {
           accuracy: Location.Accuracy.BestForNavigation,
           timeInterval: 5000,
-          distanceInterval: 0,
+          distanceInterval: 100,
         },
         (loc) => {
           // console.log(loc);
@@ -130,7 +132,7 @@ export default function map() {
     <>
       <View style={styles.container}>
         <MapView
-          provider={PROVIDER_GOOGLE}
+          // provider={PROVIDER_GOOGLE}
           showsUserLocation
           style={styles.map}
           region={mapRegion}
@@ -151,6 +153,7 @@ export default function map() {
                   <Text>{`${marker.building} Room: ${marker.room}`}</Text>
                   <Text>{`${marker.start}-${marker.end}`}</Text>
                   <Text>{`${marker.desc}`}</Text>
+                  <Image source={marker.url ?? require('../assets/food.png')} style={{width: 150, height: 150, margin: 10, alignSelf: "center"}}/>
                 </View>
               </Callout>
             </Marker>

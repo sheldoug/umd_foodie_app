@@ -3,21 +3,41 @@ import { StyleSheet, View, TextInput, Button, Text, ScrollView, Link, Pressable}
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { useNavigation, useRouter, useLocalSearchParams } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { Image } from 'expo-image';
+import * as Crypto from 'expo-crypto';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+
+// import { firebaseConfig } from '../firebase';
+
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBsbXujxaXYnUblZXCryZObYL6sgyhZS7A",
+//     authDomain: "umd-foodie.firebaseapp.com",
+//     projectId: "umd-foodie",
+//     storageBucket: "umd-foodie.appspot.com",
+//     messagingSenderId: "412346293089",
+//     appId: "1:412346293089:web:645d0ef53dcfea58398320",
+//     measurementId: "G-5DHKWMMGD6"
+//   };
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBsbXujxaXYnUblZXCryZObYL6sgyhZS7A",
-    authDomain: "umd-foodie.firebaseapp.com",
-    projectId: "umd-foodie",
-    storageBucket: "umd-foodie.appspot.com",
-    messagingSenderId: "412346293089",
-    appId: "1:412346293089:web:645d0ef53dcfea58398320",
-    measurementId: "G-5DHKWMMGD6"
-  };
+  apiKey: "AIzaSyCroielwgkwU_ZIWJFLVksc8ptdWrXu6YI",
+  authDomain: "umd-foodies.firebaseapp.com",
+  projectId: "umd-foodies",
+  storageBucket: "umd-foodies.appspot.com",
+  messagingSenderId: "772481496493",
+  appId: "1:772481496493:web:c7fb0108a9a0f8cfecdd24"
+};
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const storage = getStorage(app);
 
 const AddEvent = () => {
+
+
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventStartTime, setEventStartTime] = useState('');
@@ -27,6 +47,10 @@ const AddEvent = () => {
   const [eventRoomNumber, setEventRoomNumber] = useState('');
   const [latitude, setLatitude] = useState("38.9860");  
   const [longitude, setLongitude] = useState("76.9446"); 
+  const [imageUrl, setImageUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
+ 
+
 
   const navigation = useNavigation();
   const router = useRouter();
@@ -39,9 +63,61 @@ const AddEvent = () => {
     }
   }, [post]);
 
+  useEffect(()=> {
+    handlePermissions = async () => {
+      const {status} = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        alert("Need Permissions")
+      }
+    };
+    handlePermissions;
+  },[])
+
+  const selectImage = async () => {
+  
+    let pickerResult = await ImagePicker.launchCameraAsync({
+      allowsMultipleSelection: false,
+    });
+
+    try {
+      setUploading(true);
+      if (!pickerResult.canceled) {
+        const uploadUrl = await uploadImage(pickerResult.assets[0].uri, pickerResult.assets[0].fileName);
+        // alert(uploadUrl);
+        setImageUrl(uploadUrl);
+      }
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    } finally {
+      setUploading(false);
+    }
+ }
+
+ const uploadImage = async (uri) => {
+  console.log(uri);
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      console.log(e);
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
+
+  const fileRef = ref(storage, `images/${Crypto.randomUUID()}`);
+  const result = await uploadBytes(fileRef, blob);
+  blob.close();
+  return await getDownloadURL(fileRef);
+ }
 
   const handleAddEvent = async () => {
-    if (!eventName || !eventDate || !eventStartTime || !eventEndTime || !eventDescription || !eventLocation) {
+    if (!eventName || !eventDate || !eventStartTime || !eventEndTime || !eventDescription || !eventLocation || !imageUrl) {
       alert('Please fill in all required fields');
       return;
     }
@@ -56,7 +132,8 @@ const AddEvent = () => {
         eventLocation: eventLocation,
         eventRoomNumber: eventRoomNumber,
         latitude: latitude, 
-        longitude: longitude
+        longitude: longitude,
+        eventImageUrl: imageUrl
       });
      
       setEventName('');
@@ -68,6 +145,7 @@ const AddEvent = () => {
       setEventRoomNumber('');
       setLatitude(''); 
       setLongitude(''); 
+      setImageUrl(null);
       router.back();
     } catch (error) {
       console.error('Error adding event: ', error);
@@ -145,7 +223,13 @@ const AddEvent = () => {
           value={longitude}
           editable={false}  
         />
-        
+        <Text style={styles.label}>Event Image</Text>
+        <Image source={imageUrl ?? require('../assets/food.png')} style={{width: 150, height: 150, margin: 10}} onPress = {selectImage}/>
+        <Pressable style={styles.button2} onPress={selectImage}>
+          <Text style={styles.text}>
+            Add Photo
+          </Text>
+        </Pressable>
         {/* <Button title="Add Event" onPress={handleAddEvent} /> */}
       </View>
       <Pressable style={styles.button} onPress={handleAddEvent}>
@@ -202,6 +286,19 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#92140C',
+    marginLeft: 24,
+    marginRight: 24,
+    marginBottom: 24
+  },
+  button2: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#92140C',
+    margin: 16
   },
   text: {
     fontSize: 16,

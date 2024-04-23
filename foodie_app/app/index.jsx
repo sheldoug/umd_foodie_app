@@ -1,10 +1,15 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import { Link } from 'expo-router'
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { Link, useNavigation, useRouter, useLocalSearchParams } from 'expo-router'
 import * as Font from 'expo-font';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,} from 'react';
 import {  useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 
 export default function Page() {
+
+  const navigation = useNavigation();
+  const router = useRouter();
+  const post = useLocalSearchParams();
+
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });
@@ -17,9 +22,31 @@ export default function Page() {
     <View style={styles.container}>
       <View style={styles.main}>
         <Image source={require('../assets/transparent.png')} style={{width: 150, height:150}}/>
+        
         <Text style={styles.title}>UMD Foodies</Text>
         <Text style={styles.subtitle}>Find free food events on campus!</Text>
-        <Link href="/map" style={styles.button}>View Campus Map</Link>
+        <Pressable style={styles.button}>
+          <Link style={styles.text2} href="/map">
+            View Campus Map
+          </Link>
+        </Pressable>
+        <Pressable style={styles.button}>
+          <Link style={styles.text2} href="/calendar">
+            List of Food Events
+          </Link>
+        </Pressable>
+        <Pressable style={styles.button}>
+          <Link style={styles.text2} href={{
+            pathname: "/add_event",
+            params: {
+              lat: '38.9860',
+              lon: '-76.9446',
+            }
+        }}>
+            Add new Food Event
+          </Link>
+        </Pressable>
+        {/* <Link href="/map" style={styles.button}>View Campus Map</Link>
         <Link href="/calendar" style={styles.button}>List of Food Events</Link>
         <Link href={{
             pathname: "/add_event",
@@ -27,7 +54,7 @@ export default function Page() {
               lat: '38.9860',
               lon: '76.9446',
             }
-        }} style={styles.button}>Add New Food Event</Link>
+        }} style={styles.button}>Add New Food Event</Link> */}
       </View>
     </View>
   );
@@ -75,4 +102,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "none",
   },
+  button2: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#92140C',
+  },
+  text2: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    textAlign: "center"
+    },
 });
