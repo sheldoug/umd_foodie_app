@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, SectionList, StyleSheet } from "react-native";
+import { Text, View, SectionList, StyleSheet, Dimensions } from "react-native";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { format, parseISO } from "date-fns";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBsbXujxaXYnUblZXCryZObYL6sgyhZS7A",
-  authDomain: "umd-foodie.firebaseapp.com",
-  projectId: "umd-foodie",
-  storageBucket: "umd-foodie.appspot.com",
-  messagingSenderId: "412346293089",
-  appId: "1:412346293089:web:645d0ef53dcfea58398320",
-  measurementId: "G-5DHKWMMGD6",
+  apiKey: "AIzaSyCroielwgkwU_ZIWJFLVksc8ptdWrXu6YI",
+  authDomain: "umd-foodies.firebaseapp.com",
+  projectId: "umd-foodies",
+  storageBucket: "umd-foodies.appspot.com",
+  messagingSenderId: "772481496493",
+  appId: "1:772481496493:web:c7fb0108a9a0f8cfecdd24"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -63,7 +62,7 @@ const EventList = () => {
   return (
     <View style={{backgroundColor: "#FFF8F0", padding: 10}}>
       {/* <Text style={styles.title}>List of Food Events</Text> */}
-      <SectionList
+      <SectionList style={{height: Dimensions.get("window").height}}
         sections={sections}
         renderItem={renderEvent}
         renderSectionHeader={renderHeader}

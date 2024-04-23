@@ -40,9 +40,23 @@
       "expo-font",
       ["expo-location",
       {
-        "locationAlwaysAndWhenInUsePermission": "Allow UMD Foodie to use your location.",
+        "locationAlwaysAndWhenInUsePermission": "Allow UMD Foodies to use your location.",
         "isAndroidForegroundServiceEnabled": true
-      }]
+      }],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow UMD Foodies to access your camera",
+          "microphonePermission": "Allow UMD Foodie to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "UMD Foodies accesses your photos to let you share them with your friends."
+        }
+      ]
     ]
   }
 }
